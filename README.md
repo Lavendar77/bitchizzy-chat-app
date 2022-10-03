@@ -1,4 +1,4 @@
-# bitchizzy-chat-app2
+# bitchizzy-chat-app
 
 ## Project setup
 ```
