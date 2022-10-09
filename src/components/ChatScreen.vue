@@ -37,15 +37,15 @@
           :key="message.id"
           class="mb-2 p-2 rounded"
           :class="{
-            'bg-info': message.sender == 'owner',
-            'bg-dark': message.sender == 'dealer',
+            'bg-dark': message.sender == 'owner',
+            'border': message.sender == 'dealer',
           }"
         >
           <div class="mb-3">
-            <h6 class="card-title text-white">{{ message.sender }}</h6>
-            <small class="text-white">{{ message.created_at | moment('calendar') }}</small>
+            <h6 class="card-title" :class="message.sender == 'owner' ? 'text-white' : 'text-dark'">{{ message.sender }}</h6>
+            <small class="" :class="message.sender == 'owner' ? 'text-white' : 'text-dark'">{{ message.created_at | moment('calendar') }}</small>
           </div>
-          <p class="card-text text-white">{{ message.message }}</p>
+          <p class="card-text" :class="message.sender == 'owner' ? 'text-white' : 'text-dark'">{{ message.message }}</p>
         </div>
       </div>
 
@@ -72,8 +72,8 @@ export default {
   data() {
     return {
       modelForm: {
-        peer_to_peer_id: "9768044d-7211-43ab-912e-b4bf07ff316d",
-        peer_to_peer_type: "sale",
+        peer_to_peer_id: "",
+        peer_to_peer_type: "",
         busy: false
       },
       startChat: false,
