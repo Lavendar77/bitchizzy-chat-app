@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="text-center">
-      <img alt="Vue logo" src="../assets/logo.png">
+      <img alt="Vue logo" src="../assets/logo.png" width="100px">
     </div>
 
     <div class="mt-4">

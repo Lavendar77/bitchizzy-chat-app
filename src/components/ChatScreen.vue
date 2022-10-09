@@ -1,58 +1,61 @@
 <template>
   <div class="container" v-if="user">
-    <div class="d-grid gap-2 d-md-block mb-5">
-      <button class="btn btn-danger" @click="logout">Logout</button>
-    </div>
+    <button class="btn btn-sm btn-danger" @click="logout">Logout</button>
 
-    <div class="row row-cols-2">
-      <div class="mb-4 mb-md-0 col-12 col-md-4 col-lg-4">
-        <h3 class="text-center">Welcome back {{ `${user.first_name} ${user.last_name}` }}</h3>
+    <div class="mb-3">
+      <div class="text-center">
+        <h5>Welcome back {{ `${user.first_name} ${user.last_name}` }}</h5>
+        <p class="small text-muted">Enter the P2P ID and choose either it's a sale or purchase!</p>
+      </div>
 
-        <form @submit.stop.prevent="openChat" class="mt-4">
-          <div class="mb-3">
-            <label for="peer_to_peer_id" class="form-label">Peer-to-peer ID</label>
-            <input type="text" class="form-control" id="peer_to_peer_id" v-model="modelForm.peer_to_peer_id" required>
-          </div>
+      <form @submit.stop.prevent="openChat" class="">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Peer-to-Peer ID" id="peer_to_peer_id" v-model="modelForm.peer_to_peer_id" required>
 
-          <div class="mb-3">
-            <label for="peer_to_peer_type" class="form-label">Peer-to-peer Type</label>
-            <select v-model="modelForm.peer_to_peer_type" id="peer_to_peer_type" class="form-select" required>
-              <option value="">Select a type</option>
-              <option value="sale">Sale</option>
-              <option value="purchase">Purchase</option>
-            </select>
-          </div>
+          <select v-model="modelForm.peer_to_peer_type" id="peer_to_peer_type" class="form-select" required>
+            <option value="">Select a type</option>
+            <option value="sale">Sale</option>
+            <option value="purchase">Purchase</option>
+          </select>
 
           <button type="submit" class="btn btn-primary" :disabled="modelForm.busy">Submit</button>
-        </form>
-      </div>
-      <div class="col-12 col-md-8 col-lg-8">
-        <div class="card border-primary">
-          <div class="card-header bg-primary text-white border-primary">
-            Chat
-          </div>
-          <div class="card-body" ref="chatBox">
-            <div v-if="messages && messages.data && messages.data.length < 1" class="text-center text-secondary">
-              No chat messages yet!
-            </div>
-
-            <div v-for="message in messages.data" :key="message.id" class="border-bottom mb-2">
-              <div class="mb-3">
-                <h6 class="card-title">{{ message.sender }}</h6>
-                <small class="text-muted">{{ message.created_at | moment('calendar') }}</small>
-              </div>
-              <p class="card-text">{{ message.message }}</p>
-            </div>
-          </div>
-          <div class="card-footer bg-white border-primary">
-            <form @submit.stop.prevent="sendMessage">
-              <div class="input-group">
-                <input type="text" class="form-control form-control-sm" placeholder="Enter a message" v-model="newMessageForm.message" required>
-                <button type="submit" class="btn btn-sm btn-primary" :disabled="newMessageForm.busy">Send</button>
-              </div>
-            </form>
-          </div>
         </div>
+      </form>
+    </div>
+
+    <div class="card border-primary mb-5">
+      <div class="card-header bg-primary text-white border-primary">
+        Chat
+      </div>
+      <div class="card-body" ref="chatBox">
+        <div v-if="messages && messages.data && messages.data.length < 1" class="text-center text-secondary">
+          No chat messages yet!
+        </div>
+
+        <div
+          v-for="message in messages.data"
+          :key="message.id"
+          class="mb-2 p-2 rounded"
+          :class="{
+            'bg-info': message.sender == 'owner',
+            'bg-dark': message.sender == 'dealer',
+          }"
+        >
+          <div class="mb-3">
+            <h6 class="card-title text-white">{{ message.sender }}</h6>
+            <small class="text-white">{{ message.created_at | moment('calendar') }}</small>
+          </div>
+          <p class="card-text text-white">{{ message.message }}</p>
+        </div>
+      </div>
+
+      <div class="card-footer bg-white border-primary">
+        <form @submit.stop.prevent="sendMessage">
+          <div class="input-group">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter a message" v-model="newMessageForm.message" required>
+            <button type="submit" class="btn btn-sm btn-primary" :disabled="newMessageForm.busy">Send</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -69,8 +72,8 @@ export default {
   data() {
     return {
       modelForm: {
-        peer_to_peer_id: "",
-        peer_to_peer_type: "",
+        peer_to_peer_id: "9768044d-7211-43ab-912e-b4bf07ff316d",
+        peer_to_peer_type: "sale",
         busy: false
       },
       startChat: false,
