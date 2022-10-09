@@ -1,0 +1,46 @@
+<template>
+  <div class="container">
+    <div class="text-center">
+      <img alt="Vue logo" src="../assets/logo.png">
+    </div>
+
+    <div class="mt-4">
+      <LoginForm v-if="!isAuthenticated" />
+
+      <ChatScreen v-else />
+    </div>
+  </div>
+</template>
+
+<script>
+import LoginForm from '@/components/LoginForm';
+import ChatScreen from '@/components/ChatScreen';
+import { mapGetters } from 'vuex';
+import { VERIFY_AUTH, PURGE_AUTH } from '@/store/auth';
+
+export default {
+  name: 'HomeView',
+  components: {
+    LoginForm,
+    ChatScreen
+  },
+  computed: {
+    ...mapGetters({
+      isAuthenticated: 'isAuthenticated',
+      user: 'currentUser',
+    })
+  },
+  created() {
+    if (this.isAuthenticated) {
+      if (!this.user) {
+        this.$store.dispatch(VERIFY_AUTH)
+          .catch((error) => {
+            if (error.response.status == 401) {
+              this.$store.commit(PURGE_AUTH)
+            }
+          });
+      }
+    }
+  }
+}
+</script>
