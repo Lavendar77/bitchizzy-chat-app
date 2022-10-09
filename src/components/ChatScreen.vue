@@ -69,8 +69,8 @@ export default {
   data() {
     return {
       modelForm: {
-        peer_to_peer_id: "9768044d-7211-43ab-912e-b4bf07ff316d",
-        peer_to_peer_type: "sale",
+        peer_to_peer_id: "",
+        peer_to_peer_type: "",
         busy: false
       },
       startChat: false,
