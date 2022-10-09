@@ -5,6 +5,8 @@ import store from './store'
 
 import ApiService from '@/services/api.service'
 import '@/plugins/vform'
+import '@/plugins/laravel-echo'
+import '@/plugins/vue-moment'
 
 ApiService.init();
 

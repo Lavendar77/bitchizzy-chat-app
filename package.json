@@ -13,6 +13,7 @@
     "vform": "^2.1.2",
     "vue": "^2.6.14",
     "vue-axios": "^3.4.1",
+    "vue-moment": "^4.1.0",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2"
   },
@@ -26,6 +27,8 @@
     "@vue/cli-service": "~5.0.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
+    "laravel-echo": "^1.14.0",
+    "pusher-js": "^7.4.0",
     "vue-template-compiler": "^2.6.14"
   },
   "eslintConfig": {

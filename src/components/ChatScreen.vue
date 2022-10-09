@@ -1,7 +1,7 @@
 <template>
   <div class="container" v-if="user">
     <div class="row row-cols-2">
-      <div class="col">
+      <div class="mb-4 mb-md-0 col-12 col-sm-6 col-md-4 col-lg-4">
         <h3 class="text-center">Welcome back {{ `${user.first_name} ${user.last_name}` }}</h3>
 
         <form @submit.stop.prevent="openChat" class="mt-4">
@@ -22,16 +22,20 @@
           <button type="submit" class="btn btn-primary" :disabled="modelForm.busy">Submit</button>
         </form>
       </div>
-      <div class="col">
+      <div class="col-12 col-sm-6 col-md-8 col-lg-8">
         <div class="card border-primary">
-          <div class="card-header bg-white border-primary">
+          <div class="card-header bg-primary text-white border-primary">
             Chat
           </div>
           <div class="card-body" ref="chatBox">
+            <div v-if="messages && messages.data && messages.data.length < 1" class="text-center text-secondary">
+              No chat messages yet!
+            </div>
+
             <div v-for="message in messages.data" :key="message.id" class="border-bottom mb-2">
               <div class="mb-3">
                 <h6 class="card-title">{{ message.sender }}</h6>
-                <small class="text-muted">{{ message.created_at }}</small>
+                <small class="text-muted">{{ message.created_at | moment('calendar') }}</small>
               </div>
               <p class="card-text">{{ message.message }}</p>
             </div>
@@ -84,15 +88,18 @@ export default {
   methods: {
     openChat() {
       this.modelForm.busy = true;
+      this.newMessageForm.reset();
 
       ApiService
         .get(`user/peer-to-peer/${this.modelForm.peer_to_peer_type}s/${this.modelForm.peer_to_peer_id}/messages`)
         .then((response) => {
           this.startChat = true;
           this.messages = response.data.data.messages;
+
+          this.openWebsocketConnection();
         })
         .catch((error) => {
-          alert(error.response.data.message);
+          alert(error.response?.data?.message || error.response.statusText);
         })
         .finally(() => {
           this.modelForm.busy = false;
@@ -109,11 +116,20 @@ export default {
       this.newMessageForm
         .post(`user/peer-to-peer/${this.modelForm.peer_to_peer_type}s/${this.modelForm.peer_to_peer_id}/messages`)
         .then(() => {
-          this.newMessageForm.clear();
+          this.newMessageForm.reset();
         })
         .catch((error) => {
           alert(error.response.data.message);
         })
+    },
+    openWebsocketConnection() {
+      // eslint-disable-next-line
+      Echo.private(`peer-to-peer-message.${this.modelForm.peer_to_peer_type}.${this.modelForm.peer_to_peer_id}`)
+        .listen('.peer-to-peer-message.created', (e) => {
+          this.messages.data.push(e);
+
+          this.scrollToEndOfChat();
+        });
     }
   }
 }
@@ -121,6 +137,7 @@ export default {
 
 <style scoped>
 .card .card-body {
+  min-height: 100px;
   max-height: 480px;
   overflow-y: auto;
 }
