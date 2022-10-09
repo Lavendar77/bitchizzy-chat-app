@@ -1,7 +1,11 @@
 <template>
   <div class="container" v-if="user">
+    <div class="d-grid gap-2 d-md-block mb-5">
+      <button class="btn btn-danger" @click="logout">Logout</button>
+    </div>
+
     <div class="row row-cols-2">
-      <div class="mb-4 mb-md-0 col-12 col-sm-6 col-md-4 col-lg-4">
+      <div class="mb-4 mb-md-0 col-12 col-md-4 col-lg-4">
         <h3 class="text-center">Welcome back {{ `${user.first_name} ${user.last_name}` }}</h3>
 
         <form @submit.stop.prevent="openChat" class="mt-4">
@@ -22,7 +26,7 @@
           <button type="submit" class="btn btn-primary" :disabled="modelForm.busy">Submit</button>
         </form>
       </div>
-      <div class="col-12 col-sm-6 col-md-8 col-lg-8">
+      <div class="col-12 col-md-8 col-lg-8">
         <div class="card border-primary">
           <div class="card-header bg-primary text-white border-primary">
             Chat
@@ -58,6 +62,7 @@
 import { mapGetters } from 'vuex'
 import { Form } from '@/plugins/vform'
 import ApiService from '@/services/api.service'
+import { LOGOUT } from '@/store/auth'
 
 export default {
   name: "ChatScreen",
@@ -130,6 +135,15 @@ export default {
 
           this.scrollToEndOfChat();
         });
+    },
+    logout() {
+      this.$store.dispatch(LOGOUT)
+        .then(() => {
+          alert('Logged out successfully')
+        })
+        .catch((error) => {
+          console.error(error);
+        })
     }
   }
 }
