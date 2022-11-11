@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 import auth from "./auth";
+import asset from "./asset";
 
 export default new Vuex.Store({
   state: {
@@ -15,6 +16,7 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
-    auth
+    auth,
+    asset
   }
 })

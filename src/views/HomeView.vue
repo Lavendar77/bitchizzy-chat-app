@@ -1,13 +1,20 @@
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <div class="text-center">
       <img alt="Vue logo" src="../assets/logo.png" width="100px">
     </div>
 
     <div class="mt-4">
-      <LoginForm v-if="!isAuthenticated" />
+      <div class="row">
+        <div class="col-md-4">
+          <AssetDisplay />
+        </div>
+        <div class="col-md-8">
+          <LoginForm v-if="!isAuthenticated" />
 
-      <ChatScreen v-else />
+          <ChatScreen v-else />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -15,6 +22,7 @@
 <script>
 import LoginForm from '@/components/LoginForm';
 import ChatScreen from '@/components/ChatScreen';
+import AssetDisplay from '@/components/AssetDisplay';
 import { mapGetters } from 'vuex';
 import { VERIFY_AUTH, PURGE_AUTH } from '@/store/auth';
 
@@ -22,7 +30,8 @@ export default {
   name: 'HomeView',
   components: {
     LoginForm,
-    ChatScreen
+    ChatScreen,
+    AssetDisplay
   },
   computed: {
     ...mapGetters({
