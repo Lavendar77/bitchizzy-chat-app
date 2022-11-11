@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h5>List of assets and their NGN rates</h5>
+    <h5 class="card-title">List of assets and their NGN rates</h5>
 
     <ol class="list-group list-group-numbered">
       <li

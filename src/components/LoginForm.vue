@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h5>Login</h5>
+    <h5 class="card-title">Login</h5>
 
     <alert-error :form="form" :message="form.errors.error"></alert-error>
 

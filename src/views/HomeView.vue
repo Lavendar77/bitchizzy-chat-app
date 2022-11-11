@@ -5,14 +5,18 @@
     </div>
 
     <div class="mt-4">
-      <div class="row">
-        <div class="col-md-4">
-          <AssetDisplay />
+      <div class="card-group">
+        <div class="card">
+          <div class="card-body">
+            <AssetDisplay />
+          </div>
         </div>
-        <div class="col-md-8">
-          <LoginForm v-if="!isAuthenticated" />
+        <div class="card">
+          <div class="card-body">
+            <LoginForm v-if="!isAuthenticated" />
 
-          <ChatScreen v-else />
+            <ChatScreen v-else />
+          </div>
         </div>
       </div>
     </div>
