@@ -38,8 +38,8 @@ const mutations = {
   [SET_ASSETS](state, assets) {
     state.assets = assets;
   },
-  [SET_ASSET_CURRENT_RATE](state, { asset, rate, updated_at }) {
-    let assetIndex = state.assets.findIndex((i) => i.code == asset);
+  [SET_ASSET_CURRENT_RATE](state, { asset_id, rate, updated_at }) {
+    let assetIndex = state.assets.findIndex((asset) => asset.id == asset_id);
 
     if (assetIndex === -1) {
       return;
