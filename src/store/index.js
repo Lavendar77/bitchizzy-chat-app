@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 import auth from "./auth";
 import asset from "./asset";
+import currency from "./currency";
 
 export default new Vuex.Store({
   state: {
@@ -17,6 +18,7 @@ export default new Vuex.Store({
   },
   modules: {
     auth,
-    asset
+    asset,
+    currency
   }
 })
