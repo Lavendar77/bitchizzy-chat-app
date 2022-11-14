@@ -8,7 +8,7 @@ window.Echo = new Echo({
   broadcaster: 'pusher',
   key: process.env.VUE_APP_PUSHER_APP_KEY,
   cluster: process.env.VUE_APP_PUSHER_APP_CLUSTER,
-  wsHost: window.location.hostname,
+  wsHost: process.env.VUE_APP_WEBSOCKET_HOST,
   wsPort: process.env.VUE_APP_WEBSOCKET_PORT,
   wsPath: process.env.VUE_APP_WEBSOCKET_TLS === 'true' ? '/pusher' : '',
   forceTLS: process.env.VUE_APP_WEBSOCKET_TLS === 'true',
