@@ -1,4 +1,4 @@
-import ApiService from '@/services/api.service';
+import JwtService from '@/services/jwt.service';
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 
@@ -10,23 +10,9 @@ window.Echo = new Echo({
   cluster: process.env.VUE_APP_PUSHER_APP_CLUSTER,
   wsHost: window.location.hostname,
   wsPort: process.env.VUE_APP_WEBSOCKET_PORT,
-  forceTLS: process.env.VUE_APP_WEBSOCKET_TLS == 'true',
+  forceTLS: process.env.VUE_APP_WEBSOCKET_TLS === 'true',
   enabledTransports: ['ws', 'wss'],
   disableStats: true,
-  authorizer: (channel) => {
-    return {
-      authorize: (socketId, callback) => {
-        ApiService.post('/broadcasting/auth', {
-          socket_id: socketId,
-          channel_name: channel.name
-        })
-        .then(response => {
-          callback(null, response.data);
-        })
-        .catch(error => {
-          callback(error);
-        });
-      }
-    };
-  },
+  authEndpoint: `${process.env.VUE_APP_API_URL}/broadcasting/auth`,
+  bearerToken: JwtService.getToken(),
 });
