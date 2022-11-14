@@ -10,7 +10,7 @@ window.Echo = new Echo({
   cluster: process.env.VUE_APP_PUSHER_APP_CLUSTER,
   wsHost: window.location.hostname,
   wsPort: process.env.VUE_APP_WEBSOCKET_PORT,
-  forceTLS: process.env.VUE_APP_WEBSOCKET_TLS === 'true',
+  forceTLS: process.env.VUE_APP_WEBSOCKET_TLS == 'true',
   enabledTransports: ['ws', 'wss'],
   disableStats: true,
   authorizer: (channel) => {
