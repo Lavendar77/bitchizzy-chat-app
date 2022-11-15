@@ -15,6 +15,7 @@ window.Echo = new Echo({
   forceTLS: process.env.VUE_APP_WEBSOCKET_TLS === 'true',
   enabledTransports: ['ws', 'wss'],
   disableStats: true,
+  encrypted: true,
   authorizer: (channel) => {
     return {
       authorize: (socketId, callback) => {
